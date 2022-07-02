@@ -15,8 +15,8 @@ protected:
 public: 
     Person();
     // virtual ~Person() = 0;
-    virtual void getData() = 0;
-    virtual void putData() = 0;
+    virtual void getdata() = 0;
+    virtual void putdata() = 0;
 };
 
 Person::Person()
@@ -33,8 +33,8 @@ private:
 
 public:
     Professor();
-    void getData();
-    void putData();
+    void getdata();
+    void putdata();
 
     static int generateID();
 
@@ -53,14 +53,19 @@ Professor::Professor() : Person()
     cur_id = Professor::generateID();
 }
 
-void Professor::getData()
+void Professor::getdata()
 {
-
+    cin >> name;
+    cin >> age;
+    cin >> publications;
 }
 
-void Professor::putData()
+void Professor::putdata()
 {
-
+    cout << name << " ";
+    cout << age << " ";
+    cout << publications << " ";
+    cout << cur_id << endl;
 }
 
 class Student : public Person
@@ -69,10 +74,12 @@ private:
     array<int, 6> marks;
     static int idGenerator;
 
+    int sumOfMarks();
+
 public:
     Student();
-    void getData();
-    void putData();
+    void getdata();
+    void putdata();
 
     static int generateID();
 };
@@ -89,48 +96,58 @@ Student::Student() : Person()
     cur_id = Student::generateID();
 }
 
-void Student::getData()
+void Student::getdata()
 {
-
+    cin >> name;
+    cin >> age;
+    for (size_t i = 0; i < 6; i++)
+    {
+        cin >> marks[i];
+    }
 }
 
-void Student::putData()
+void Student::putdata()
 {
-    
+    cout << name << " ";
+    cout << age << " ";
+    cout << sumOfMarks() << " ";
+    cout << cur_id << endl;
 }
 
-int main()
+int Student::sumOfMarks()
 {
-    Person *per[3];
-    per[0] = new Professor();
-    per[1] = new Professor();
-    per[2] = new Student();
+    int sum = 0;
+    for (int mark : marks)
+    {
+        sum += mark;
+    }
+    return sum;
+}
+
+
+int main(){
+
+    int n, val;
+    cin>>n; //The number of objects that is going to be created.
+    Person *per[n];
+
+    for(int i = 0;i < n;i++){
+
+        cin>>val;
+        if(val == 1){
+            // If val is 1 current object is of type Professor
+            per[i] = new Professor;
+
+        }
+        else per[i] = new Student; // Else the current object is of type Student
+
+        per[i]->getdata(); // Get the data from the user.
+
+    }
+
+    for(int i=0;i<n;i++)
+        per[i]->putdata(); // Print the required output for each object.
+
     return 0;
+
 }
-
-// int main(){
-
-//     int n, val;
-//     cin>>n; //The number of objects that is going to be created.
-//     Person *per[n];
-
-//     for(int i = 0;i < n;i++){
-
-//         cin>>val;
-//         if(val == 1){
-//             // If val is 1 current object is of type Professor
-//             per[i] = new Professor;
-
-//         }
-//         else per[i] = new Student; // Else the current object is of type Student
-
-//         per[i]->getdata(); // Get the data from the user.
-
-//     }
-
-//     for(int i=0;i<n;i++)
-//         per[i]->putdata(); // Print the required output for each object.
-
-//     return 0;
-
-// }
